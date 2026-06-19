@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Amigo / Friend — Club de Conquistadores</title>
+<style>
+  :root{
+    --accent:#1C66B0; --accent-soft:#1C66B01A; --accent-line:#1C66B033;
+    --ink:#15233f; --ink-soft:#586079; --paper:#f5f6f9; --card:#fff; --hair:#e3e6ee; --hair-2:#eef0f5;
+    --es:#15233f; --en:#3b4561; --maxw:1180px;
+  }
+  *{box-sizing:border-box} html{scroll-behavior:smooth}
+  body{margin:0;background:var(--paper);color:var(--ink);
+    font-family:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.5;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 22px}
+
+  header.hero{background:var(--accent);color:#fff;padding:34px 0 26px}
+  .hero .wrap{display:flex;flex-wrap:wrap;align-items:flex-end;gap:18px;justify-content:space-between}
+  .eyebrow{font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;opacity:.85;font-weight:600}
+  h1.title{margin:.18em 0 .1em;font-size:clamp(1.9rem,4.4vw,3rem);font-weight:800;letter-spacing:-.01em;line-height:1.02}
+  h1.title .en{display:block;font-size:.5em;font-weight:600;opacity:.86;margin-top:.2em}
+  .meta-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+  .pill{display:inline-flex;align-items:center;gap:.5em;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.28);border-radius:999px;padding:5px 12px;font-size:.82rem;font-weight:600}
+  .pill .dot{width:9px;height:9px;border-radius:50%;background:#fff}
+  .langbar{display:flex;gap:6px;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.3);border-radius:12px;padding:5px}
+  .langbar button{appearance:none;border:0;background:transparent;color:#fff;font:inherit;font-weight:700;font-size:.82rem;padding:7px 14px;border-radius:8px;cursor:pointer;opacity:.82;transition:.15s}
+  .langbar button[aria-pressed="true"]{background:#fff;color:var(--accent);opacity:1}
+  .langbar button:focus-visible{outline:2px solid #fff;outline-offset:2px}
+
+  .ideals{background:var(--card);border-bottom:1px solid var(--hair)}
+  .ideals .wrap{display:grid;grid-template-columns:1fr 1.25fr;gap:26px;padding:22px}
+  .ideals h2{margin:0 0 6px;font-size:.74rem;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);font-weight:700}
+  .voto{font-size:1.06rem;font-weight:700;margin:0}
+  .voto .en{display:block;font-size:.82em;font-weight:500;color:var(--ink-soft);margin-top:5px}
+  .desc{margin:12px 0 0;font-size:.84rem;color:var(--ink-soft);max-width:52ch}
+  .law{display:grid;grid-template-columns:repeat(2,1fr);gap:7px;margin-top:2px}
+  .law .m{display:flex;gap:9px;align-items:flex-start;background:var(--accent-soft);border:1px solid var(--accent-line);border-radius:10px;padding:8px 10px}
+  .law .m .n{flex:none;width:20px;height:20px;border-radius:6px;background:var(--accent);color:#fff;font-size:.72rem;font-weight:800;display:grid;place-items:center}
+  .law .m .t{font-size:.84rem;font-weight:600;line-height:1.25}
+  .law .m .t .en{display:block;font-weight:400;color:var(--ink-soft);font-size:.95em}
+
+  .subnav{position:sticky;top:0;z-index:20;background:rgba(245,246,249,.92);backdrop-filter:saturate(1.4) blur(8px);border-bottom:1px solid var(--hair)}
+  .subnav .wrap{display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding:10px 22px}
+  .navchips{display:flex;gap:6px;flex-wrap:wrap;flex:1}
+  .navchips a{font-size:.76rem;font-weight:700;color:var(--ink-soft);text-decoration:none;padding:6px 10px;border-radius:8px;border:1px solid var(--hair)}
+  .navchips a:hover{color:var(--accent);border-color:var(--accent-line);background:var(--accent-soft)}
+  .progress{display:flex;align-items:center;gap:10px;font-size:.78rem;color:var(--ink-soft);font-weight:600}
+  .bar{width:120px;height:8px;border-radius:99px;background:var(--hair);overflow:hidden}
+  .bar>i{display:block;height:100%;width:0;background:var(--accent);transition:width .3s}
+  .btn{appearance:none;font:inherit;font-weight:700;font-size:.76rem;cursor:pointer;border:1px solid var(--hair);background:var(--card);color:var(--ink-soft);border-radius:8px;padding:7px 11px}
+  .btn:hover{border-color:var(--accent-line);color:var(--accent)}
+  .btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+  main{padding:26px 0 60px}
+  .secband{margin:30px 0 12px;padding-top:16px;border-top:2px solid var(--accent-line)}
+  .secband:first-child{margin-top:4px;border-top:0;padding-top:0}
+  .secband .k{font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);font-weight:800}
+  .secband h3{margin:2px 0 0;font-size:1.3rem;font-weight:800}
+  .secband h3 .en{color:var(--ink-soft);font-weight:600}
+
+  .req{background:var(--card);border:1px solid var(--hair);border-radius:14px;margin:11px 0;overflow:hidden;box-shadow:0 1px 2px rgba(21,35,63,.04)}
+  .req.done{border-color:var(--accent-line)}
+  .req.adv{background:linear-gradient(0deg,var(--accent-soft),var(--accent-soft)),var(--card)}
+  .rhead{display:flex;align-items:flex-start;gap:13px;padding:14px 16px;border-bottom:1px solid var(--hair-2)}
+  .rhead.done{background:var(--accent-soft)}
+  .medallion{flex:none;min-width:38px;height:38px;padding:0 8px;border-radius:11px;background:var(--accent);color:#fff;display:grid;place-items:center;font-weight:800;font-size:.98rem}
+  .req.adv .medallion{background:var(--ink-soft)}
+  .rtop{flex:1;min-width:0;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  .tag{font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;font-weight:800;color:#fff;background:var(--ink-soft);border-radius:6px;padding:3px 7px}
+  .checkwrap{flex:none;margin-left:auto}
+  .check{display:inline-flex;align-items:center;gap:8px;cursor:pointer;user-select:none;font-size:.76rem;font-weight:700;color:var(--ink-soft);border:1px solid var(--hair);border-radius:99px;padding:6px 12px}
+  .check input{position:absolute;opacity:0;width:0;height:0}
+  .check .box{width:16px;height:16px;border-radius:5px;border:2px solid var(--ink-soft);display:grid;place-items:center;transition:.15s}
+  .check .box svg{width:12px;height:12px;opacity:0}
+  .check input:checked+.box{background:var(--accent);border-color:var(--accent)}
+  .check input:checked+.box svg{opacity:1}
+  .check input:checked~.lbl-todo{display:none}.check .lbl-done{display:none}.check input:checked~.lbl-done{display:inline}
+  .check:has(input:checked){color:var(--accent);border-color:var(--accent-line);background:var(--accent-soft)}
+  .check:focus-within{outline:2px solid var(--accent);outline-offset:2px}
+
+  .cols{display:grid;grid-template-columns:1fr 1fr}
+  .col{padding:14px 16px}
+  .col.es{border-right:1px solid var(--hair-2)}
+  .lang-tag{font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;font-weight:800;color:var(--accent);opacity:.7;margin-bottom:7px;display:block}
+  .stmt{font-size:.93rem;color:var(--es)} .col.en .stmt{color:var(--en)}
+  ul.sub{margin:8px 0 0;padding-left:0;list-style:none}
+  ul.sub li{position:relative;padding-left:22px;margin:0 0 5px;font-size:.9rem}
+  ul.sub li:before{content:attr(data-l);position:absolute;left:0;top:0;font-weight:800;color:var(--accent);font-size:.8rem}
+  .note{margin-top:9px;font-size:.82rem;color:var(--ink-soft);border-left:3px solid var(--accent-line);padding-left:9px}
+  .note b{color:var(--accent);font-weight:700;text-transform:uppercase;font-size:.66rem;letter-spacing:.1em;display:block;margin-bottom:1px}
+
+  body[data-mode="es"] .col.en,body[data-mode="en"] .col.es{display:none}
+  body[data-mode="es"] .cols,body[data-mode="en"] .cols{grid-template-columns:1fr}
+  body[data-mode="es"] .col.es,body[data-mode="en"] .col.en{border-right:0}
+  body[data-mode="es"] h1.title .en,body[data-mode="es"] .voto .en,
+  body[data-mode="es"] .law .m .t .en,body[data-mode="es"] .secband h3 .en{display:none}
+
+  footer{border-top:1px solid var(--hair);padding:22px 0 40px;color:var(--ink-soft);font-size:.82rem}
+  @media (max-width:740px){ .ideals .wrap{grid-template-columns:1fr} .law{grid-template-columns:1fr}
+    .cols{grid-template-columns:1fr} .col.es{border-right:0;border-bottom:1px solid var(--hair-2)} .bar{width:84px} }
+  @media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto}}
+  @media print{ body{background:#fff} .subnav,.langbar,.checkwrap,.controls{display:none!important}
+    .cols{grid-template-columns:1fr 1fr!important} .col.es,.col.en{display:block!important}
+    .req{break-inside:avoid;box-shadow:none;border:1px solid #bbb} header.hero{color:#000;background:#fff;border-bottom:3px solid var(--accent)}
+    .pill{color:#000;border-color:#999;background:#fff} }
+</style>
+</head>
+<body data-mode="both">
+<header class="hero"><div class="wrap">
+  <div>
+    <span class="eyebrow">Club de Conquistadores · Pathfinder Club</span>
+    <h1 class="title">Amigo<span class="en">Friend</span></h1>
+    <div class="meta-row">
+      <span class="pill"><span class="dot"></span>10 años · age 10</span>
+      <span class="pill">5º grado / 5th grade</span>
+      <span class="pill">Azul · Blue</span>
+      <span class="pill">Pre-adolescentes · Pre-teens</span>
+    </div>
+  </div>
+  <div class="langbar" role="group" aria-label="Idioma / Language">
+    <button data-set="es" aria-pressed="false">Español</button>
+    <button data-set="both" aria-pressed="true">Ambos / Both</button>
+    <button data-set="en" aria-pressed="false">English</button>
+  </div>
+</div></header>
+
+<section class="ideals"><div class="wrap">
+  <div>
+    <h2>Voto · Pathfinder Pledge</h2>
+    <p class="voto">Por la gracia de Dios, seré puro, bondadoso y leal. Guardaré la Ley del Conquistador. Seré siervo de Dios y amigo de la humanidad.<span class="en">By the grace of God, I will be pure, and kind, and true. I will keep the Pathfinder Law. I will be a servant of God and a friend to all.</span></p>
+    <p class="desc">La clase de Amigo introduce al Conquistador en los Ideales del Club, el conocimiento de la Biblia y las primeras destrezas de servicio, naturaleza y campamento.</p>
+  </div>
+  <div>
+    <h2>Ley · Pathfinder Law</h2>
+    <div class="law" id="law"></div>
+  </div>
+</div></section>
+
+<nav class="subnav"><div class="wrap">
+  <div class="navchips" id="navchips"></div>
+  <div class="controls" style="display:flex;gap:8px;align-items:center">
+    <span class="progress"><span class="bar"><i id="barfill"></i></span><span id="progtext">0 / 0</span></span>
+    <button class="btn" id="printbtn">Imprimir / Print</button>
+    <button class="btn" id="resetbtn">Reiniciar</button>
+  </div>
+</div></nav>
+
+<main><div class="wrap" id="content"></div></main>
+
+<footer><div class="wrap">
+  <p><strong>Fuente / Source:</strong> Manual de Conquistadores Pre-adolescentes (Ayudas de Enseñanza), Ministerio Joven / Club de Conquistadores, División Sudamericana (IASD). Requisitos según el programa oficial de las clases regulares. Material reorganizado para uso en el aula y despliegue web.</p>
+  <p>El progreso marcado se guarda solo en este navegador. · Progress you mark is saved only in this browser. “Avanzado / Advanced” corresponde a los requisitos de la sección avanzada.</p>
+</div></footer>
+
+<script>
+const DATA = {"id":"amigo","nameEs":"Amigo","nameEn":"Friend","age":"10","grade":"5º grado / 5th grade","colorHex":"1C66B0","colorEs":"Azul","colorEn":"Blue","levelEs":"Pre-adolescentes","levelEn":"Pre-teens","descEs":"La clase de Amigo introduce al Conquistador en los Ideales del Club, el conocimiento de la Biblia y las primeras destrezas de servicio, naturaleza y campamento.","descEn":"The Friend class introduces the Pathfinder to the Club Ideals, knowledge of the Bible, and first skills in service, nature and camping.","ideals":{"voto":{"es":"Por la gracia de Dios, seré puro, bondadoso y leal. Guardaré la Ley del Conquistador. Seré siervo de Dios y amigo de la humanidad.","en":"By the grace of God, I will be pure, and kind, and true. I will keep the Pathfinder Law. I will be a servant of God and a friend to all."},"ley":{"es":"La Ley del Conquistador me manda:","en":"The Pathfinder Law is for me to:"},"mandatos":[{"es":"Observar la Devoción Matutina.","en":"Keep the morning watch."},{"es":"Cumplir con la parte que me toca.","en":"Do my honest part."},{"es":"Cuidar mi cuerpo.","en":"Care for my body."},{"es":"Tener una mirada franca.","en":"Keep a level eye."},{"es":"Ser cortés y obediente.","en":"Be courteous and obedient."},{"es":"Andar con reverencia en la casa de Dios.","en":"Walk softly in the sanctuary."},{"es":"Conservar una canción en el corazón.","en":"Keep a song in my heart."},{"es":"Trabajar para Dios.","en":"Go on God's errands."}]},"secciones":[{"es":"Generales","en":"General","reqs":[{"n":"1","es":"Tener por lo menos 10 años y/o estar en el quinto grado (o su equivalente).","en":"Be at least 10 years old and/or in the fifth grade (or its equivalent)."},{"n":"2","es":"Ser miembro activo del Club de Conquistadores.","en":"Be an active member of the Pathfinder Club."},{"n":"3","es":"Aprender de memoria y saber explicar el Voto y la Ley del Conquistador.","en":"Memorise and be able to explain the Pathfinder Pledge and Law."},{"n":"4","es":"Leer el libro El Sendero de la Felicidad.","en":"Read the book El Sendero de la Felicidad (The Happy Path).","note":{"es":"El libro es una explicación narrada del Voto y la Ley del Conquistador.","en":"The book is a narrated explanation of the Pathfinder Pledge and Law."}},{"n":"5","es":"Tener un certificado vigente del Club de Libros.","en":"Hold a current Book Club (Reading Club) certificate."},{"n":"A","es":"Saber de memoria, cantar o tocar y poder explicar el significado del Himno de los Conquistadores y la primera estrofa del himno nacional.","en":"Memorise, sing or play, and explain the meaning of the Pathfinder Song and the first stanza of the national anthem.","adv":true}]},{"es":"Investigación Bíblica","en":"Bible Investigation","reqs":[{"n":"1","es":"Aprender de memoria los libros del Antiguo Testamento y saber los cinco grupos en que están divididos. Demostrar destreza en encontrar cualquier libro del Antiguo Testamento que se le pida.","en":"Memorise the books of the Old Testament and know the five groups into which they are divided. Show skill in finding any Old Testament book requested.","note":{"es":"Los cinco grupos: Pentateuco, Históricos, Poéticos, Profetas Mayores y Profetas Menores.","en":"The five groups: Pentateuch, Historical, Poetic, Major Prophets and Minor Prophets."}},{"n":"2","es":"Tener un certificado vigente por saber los versículos de memoria.","en":"Hold a current certificate for the memory verses."},{"n":"3","es":"Saber y explicar el Salmo 23 o el Salmo 46.","en":"Know and explain Psalm 23 or Psalm 46."},{"n":"4","es":"En consulta con su consejero, escoger uno de los siguientes personajes de la Biblia: José, Jonás, Esther o Ruth. Intercambiar ideas con el grupo sobre el amor de Cristo y su protección como se revela en sus historias.","en":"In consultation with your counsellor, choose one of these Bible characters: Joseph, Jonah, Esther or Ruth. Discuss with the group the love and protection of Christ revealed in their stories."},{"n":"A","es":"Saber los diferentes métodos de purificar el agua y demostrar su habilidad en construir un albergue o refugio. Considerar el significado de Jesús como la fuente de agua viva y como nuestro refugio.","en":"Know the different methods of purifying water and show your ability to build a shelter. Reflect on the meaning of Jesus as the source of living water and as our refuge.","adv":true}]},{"es":"Sirviendo a Otros","en":"Serving Others","reqs":[{"n":"1","es":"En consulta con su consejero, emplear por lo menos dos horas brindando amistad a algún necesitado de su comunidad mediante dos de las siguientes actividades:","en":"In consultation with your counsellor, spend at least two hours offering friendship to someone in need in your community through two of the following activities:","list":[{"es":"Visitar a alguien que no tenga amigos.","en":"Visit someone who has no friends."},{"es":"Ayudar a alguna persona necesitada.","en":"Help a person in need."},{"es":"Ayudar a organizar y dirigir una fiestecita para los Amigos.","en":"Help organise and lead a small party for the Friends."}]},{"n":"2","es":"Demostrar que es un buen ciudadano en la casa y en la escuela.","en":"Show that you are a good citizen at home and at school."},{"n":"A","es":"Llevar por lo menos dos visitas a la escuela sabática o al Club de Conquistadores.","en":"Bring at least two visitors to Sabbath School or the Pathfinder Club.","adv":true}]},{"es":"Historia Denominacional","en":"Denominational History","reqs":[{"n":"1","es":"Intercambiar ideas sobre el período de tiempo comprendido entre la ascensión de Cristo y 1844.","en":"Discuss the period of time between the ascension of Christ and 1844."},{"n":"A","es":"Contestar las preguntas basadas en la presentación audiovisual El Gran Conflicto.","en":"Answer the questions based on the audiovisual presentation The Great Controversy.","adv":true}]},{"es":"Salud y Bienestar Físico","en":"Health and Physical Fitness","reqs":[{"n":"1","es":"Sobre la temperancia:","en":"On temperance:","list":[{"es":"Hablar sobre los principios de temperancia que tenía Daniel, o participar en un diálogo basado en Daniel 1.","en":"Discuss the temperance principles Daniel held, or take part in a dialogue based on Daniel 1."},{"es":"Saber de memoria y explicar Daniel 1:8, y escoger entre firmar la tarjeta de promesa existente o diseñar una propia que exprese por qué quiere un estilo de vida en armonía con los principios de la temperancia.","en":"Memorise and explain Daniel 1:8, and choose either to sign the existing pledge card or design your own expressing why you want a lifestyle in harmony with temperance principles."}]},{"n":"2","es":"Aprender los principios de una alimentación sana y preparar, como proyecto especial, un diagrama de los grupos básicos en que se dividen los alimentos.","en":"Learn the principles of healthy eating and prepare, as a special project, a diagram of the basic food groups."},{"n":"3","es":"Completar la especialidad de Natación I.","en":"Complete the Swimming I Honour."},{"n":"4","es":"Hacer una caminata de 3 km en una hora.","en":"Complete a 3 km hike in one hour."},{"n":"A","es":"Saber hornear, hervir y freír los alimentos en un campamento.","en":"Know how to bake, boil and fry food at a campsite.","adv":true}]},{"es":"Estudio de la Naturaleza","en":"Nature Study","reqs":[{"n":"1","es":"Participar en una caminata para apreciar la naturaleza y observar los objetos que se relacionan con pasajes bíblicos.","en":"Take part in a nature appreciation walk and observe objects that relate to Bible passages."},{"n":"2","es":"Completar una de las siguientes especialidades: perros, gatos, mamíferos, semillas, pájaros y aves.","en":"Complete one of these Honours: dogs, cats, mammals, seeds, or birds."},{"n":"3","es":"Conocer e identificar 5 flores silvestres y 5 insectos de su zona.","en":"Know and identify 5 wild flowers and 5 insects of your area."},{"n":"A","es":"Conocer e identificar 10 flores silvestres y 10 insectos de su zona.","en":"Know and identify 10 wild flowers and 10 insects of your area.","adv":true}]},{"es":"Destrezas de Campamento y Métodos de Supervivencia","en":"Camping Skills and Survival Methods","reqs":[{"n":"1","es":"Saber cómo se hace la soga y demostrar la manera correcta de usarla. Saber hacer y conocer el uso práctico de los siguientes nudos:","en":"Know how rope is made and show the correct way to use it. Know how to tie and the practical use of the following knots:","list":[{"es":"Cote o media malla","en":"Half hitch"},{"es":"Falso","en":"Granny knot"},{"es":"Llano","en":"Square (reef) knot"},{"es":"Corredizo","en":"Slip knot"},{"es":"Doble lazo","en":"Double loop"},{"es":"Dos medios cotes","en":"Two half hitches"},{"es":"Ballestrinque","en":"Clove hitch"},{"es":"As de guía","en":"Bowline"}]},{"n":"2","es":"Pernoctar en un campamento.","en":"Spend a night camping."},{"n":"3","es":"Aprobar un examen sobre medidas generales de seguridad.","en":"Pass an exam on general safety measures."},{"n":"4","es":"Armar y desarmar una carpa y hacer una cama de campaña.","en":"Pitch and strike a tent and make a camp bed."},{"n":"5","es":"Saber diez reglas para realizar caminatas y qué hacer cuando se está perdido.","en":"Know ten rules for hiking and what to do when lost."},{"n":"6","es":"Aprender las señales de rastro y pista. Poder diseñar un rastro de dos km para que otros lo sigan, y poder seguir un rastro o pista por dos km.","en":"Learn trail and tracking signs. Be able to lay a 2 km trail for others to follow, and follow a trail for 2 km."},{"n":"7","es":"Completar una especialidad en Arte y Manualidades.","en":"Complete an Arts and Crafts Honour."},{"n":"A1","es":"Empezar un fuego con un solo fósforo, usando materiales naturales, y mantenerlo vivo.","en":"Start a fire with a single match using natural materials and keep it going.","adv":true},{"n":"A2","es":"Usar correctamente el cuchillo y el hacha, y saber diez reglas de seguridad en su uso.","en":"Use the knife and axe correctly and know ten safety rules for their use.","adv":true},{"n":"A3","es":"Atar cinco nudos rápidos.","en":"Tie five knots quickly.","adv":true}]}]};
+const $=(s,r=document)=>r.querySelector(s);
+const el=(t,c,h)=>{const e=document.createElement(t);if(c)e.className=c;if(h!=null)e.innerHTML=h;return e;};
+const KEY="conquistadores:"+DATA.id;
+let done={}; try{ done=JSON.parse(localStorage.getItem(KEY)||"{}")||{}; }catch(e){ done={}; }
+function save(){ try{ localStorage.setItem(KEY,JSON.stringify(done)); }catch(e){} }
+const LETTERS=["A","B","C","D","E","F","G","H"];
+
+// Law (8 mandates)
+const law=$("#law");
+DATA.ideals.mandatos.forEach((m,i)=>{
+  law.appendChild(el("div","m",'<span class="n">'+(i+1)+'</span><span class="t">'+m.es+'<span class="en">'+m.en+'</span></span>'));
+});
+
+const content=$("#content"), navchips=$("#navchips");
+let total=0;
+DATA.secciones.forEach((sec,si)=>{
+  const slug="sec-"+si;
+  const a=el("a",null,sec.es); a.setAttribute("href","#"+slug); navchips.appendChild(a);
+  const band=el("section","secband"); band.id=slug;
+  band.appendChild(el("div","k",sec.es+" · "+sec.en));
+  band.appendChild(el("h3",null,sec.es+' <span class="en">/ '+sec.en+"</span>"));
+  content.appendChild(band);
+  sec.reqs.forEach((r,ri)=>{ total++; content.appendChild(reqEl(r,si+"-"+ri)); });
+});
+
+function listHtml(list,lang){
+  let h='<ul class="sub">';
+  list.forEach((it,i)=>{ h+='<li data-l="'+LETTERS[i]+'.">'+(lang==="es"?it.es:it.en)+'</li>'; });
+  return h+'</ul>';
+}
+function colHtml(r,lang){
+  let h='<span class="lang-tag">'+(lang==="es"?"Español":"English")+'</span>';
+  h+='<div class="stmt">'+(lang==="es"?r.es:r.en)+'</div>';
+  if(r.list) h+=listHtml(r.list,lang);
+  if(r.note) h+='<div class="note"><b>'+(lang==="es"?"Nota":"Note")+'</b>'+(lang==="es"?r.note.es:r.note.en)+'</div>';
+  return h;
+}
+function reqEl(r,id){
+  const f=el("article","req"+(r.adv?" adv":"")); f.id="req-"+id;
+  const isDone=!!done[id]; if(isDone)f.classList.add("done");
+  const head=el("div","rhead"+(isDone?" done":""));
+  const medLabel=r.n.replace(/^A/,"A·").replace("A·","A");
+  head.appendChild(el("div","medallion",r.adv?(r.n==="A"?"A":r.n.replace("A","A")):r.n));
+  const top=el("div","rtop");
+  if(r.adv) top.appendChild(el("span","tag","Avanzado / Advanced"));
+  head.appendChild(top);
+  const cw=el("div","checkwrap"); const lab=el("label","check");
+  lab.innerHTML='<input type="checkbox" '+(isDone?"checked":"")+'><span class="box"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.5"><path d="M5 12l5 5L19 7"/></svg></span><span class="lbl-todo">Marcar / Mark</span><span class="lbl-done">Logrado / Done</span>';
+  const cb=lab.querySelector("input");
+  cb.addEventListener("change",()=>{ if(cb.checked)done[id]=1; else delete done[id];
+    f.classList.toggle("done",cb.checked); head.classList.toggle("done",cb.checked); save(); updateProg(); });
+  cw.appendChild(lab); head.appendChild(cw); f.appendChild(head);
+  const cols=el("div","cols");
+  cols.appendChild(el("div","col es",colHtml(r,"es")));
+  cols.appendChild(el("div","col en",colHtml(r,"en")));
+  f.appendChild(cols); return f;
+}
+
+const barfill=$("#barfill"), progtext=$("#progtext");
+function updateProg(){ const n=Object.keys(done).length; progtext.textContent=n+" / "+total;
+  barfill.style.width=(total?Math.round(n/total*100):0)+"%"; }
+updateProg();
+
+const btns=[...document.querySelectorAll(".langbar button")];
+btns.forEach(b=>b.addEventListener("click",()=>{ document.body.dataset.mode=b.dataset.set;
+  btns.forEach(x=>x.setAttribute("aria-pressed",x===b?"true":"false"));
+  try{ localStorage.setItem(KEY+":mode",b.dataset.set); }catch(e){} }));
+try{ const m=localStorage.getItem(KEY+":mode"); if(m){ document.body.dataset.mode=m;
+  btns.forEach(x=>x.setAttribute("aria-pressed",x.dataset.set===m?"true":"false")); } }catch(e){}
+$("#printbtn").addEventListener("click",()=>window.print());
+$("#resetbtn").addEventListener("click",()=>{ if(confirm("¿Reiniciar el progreso de esta clase? / Reset progress for this class?")){
+  done={}; save(); document.querySelectorAll(".req input[type=checkbox]").forEach(c=>c.checked=false);
+  document.querySelectorAll(".req").forEach(f=>f.classList.remove("done"));
+  document.querySelectorAll(".rhead").forEach(h=>h.classList.remove("done")); updateProg(); } });
+</script>
+</body>
+</html>
